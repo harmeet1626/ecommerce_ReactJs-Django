@@ -1,0 +1,13 @@
+.navbar_style {
+    background-color: #ffffff; /* Set your desired background color */
+    color: #fff; /* Set the text color to be visible on the background */
+    box-shadow: 0 2px 4px rgba(49, 44, 44, 0.2);
+  }
+  
+  /* Add a bottom border to the navigation bar */
+  .navbar_style::after {
+    content: '';
+    display: block;
+    height: 1px; /* Adjust the thickness of the shadow line */
+    /* background-color: #695858; */
+  }
