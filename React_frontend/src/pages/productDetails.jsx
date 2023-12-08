@@ -23,13 +23,14 @@ function ProductDetails() {
     const [image, setImage] = useState()
     const user = useSelector((state) => state.login.user_id)
     const [qty, setQTY] = useState(1)
-    const [API_URL, setAPI_URL] = useState('http://127.0.0.1:8000/allProducts/')
+    const [API_URL, setAPI_URL] = useState('https://dummyjson.com/products')
     async function getproducts() {
         setLoading(true)
-        const data = await fetch(`${API_URL}?product_id=${params.id}`)
+        const data = await fetch(`${API_URL}/${params.id}`)
             .then(res => res.json())
             .then(res => {
-                setImage(res.results[0].thumbnail)
+                console.log(res, 'test')
+                setImage(res.thumbnail)
                 setProduct(res)
                 setLoading(false)
             });
@@ -39,36 +40,37 @@ function ProductDetails() {
             toast.error('please select quantity')
             return
         }
-        if(!user){
+        if (!user) {
             navigate('/login')
         }
-        // await fetch('https://dummyjson.com/carts/add', {
-        //     method: 'POST',
-        //     headers: { 'Content-Type': 'application/json' },
-        //     body: JSON.stringify({
-        //         userId: user.id,
-        //         products: [
-        //             {
-        //                 id: params.id,
-        //                 quantity: qty,
-        //             }
-        //         ]
-        //     })
-        // })
-        const data = await fetch(`http://127.0.0.1:8000/addToCart/`, {
+        await fetch('https://dummyjson.com/carts/add', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                user_id: user,
-                product_id: params.id,
-                quantity: qty,
-
+                userId: user,
+                products: [
+                    {
+                        id: params.id,
+                        quantity: qty,
+                    }
+                ]
             })
         })
-            .then(res => res.json())
-            .then(console.log);
-        toast.success('item added to cart')
-        dispatch(fetchCart(user))
+        toast.success('product added to cart')
+        // const data = await fetch(`http://127.0.0.1:8000/addToCart/`, {
+        //     method: 'POST',
+        //     headers: { 'Content-Type': 'application/json' },
+        //     body: JSON.stringify({
+        //         user_id: user,
+        //         product_id: params.id,
+        //         quantity: qty,
+
+        //     })
+        // })
+        //     .then(res => res.json())
+        //     .then(console.log);
+        // toast.success('item added to cart')
+        // dispatch(fetchCart(user))
 
     }
     useEffect(() => {
@@ -88,7 +90,7 @@ function ProductDetails() {
                                             <img height={300} width={500} src={image} alt="" />
                                         </div>&nbsp;&nbsp;&nbsp;&nbsp;
                                         <div className="pro-img-list">
-                                            {product && product.results[0].productimage_set.map((item, index) =>
+                                            {product && product.images.map((item, index) =>
                                                 <div key={index}>
                                                     <a>
                                                         <img onClick={() => setImage(item)} src={item} alt="" style={imgStyle} />

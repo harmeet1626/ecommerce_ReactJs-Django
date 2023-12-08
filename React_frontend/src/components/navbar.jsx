@@ -29,7 +29,7 @@ const NavbarComponent = () => {
     }, [])
     function getCartLength() {
         if (cart.data?.data) {
-            return cart.data.data.length
+            return cart.data.data.carts[0].products.length
         } else {
             return 0
         }

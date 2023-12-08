@@ -13,26 +13,26 @@ export const fetchLogin = createAsyncThunk(
     "fetch/login",
     async (payload) => {
         try {
-            // const response = await fetch('https://dummyjson.com/auth/login', {
-            //     method: 'POST',
-            //     headers: { 'Content-Type': 'application/json' },
-            //     // body: JSON.stringify({
-            //     //     username: payload.username,
-            //     //     password: payload.password,
-            //     // }),
-            //     body: JSON.stringify({
-            //         username: 'kminchelle',
-            //         password: '0lelplR',
-            //     }),
-            // });
-            const response = await fetch('http://127.0.0.1:8000/login/', {
+            const response = await fetch('https://dummyjson.com/auth/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     username: payload.username,
                     password: payload.password,
                 }),
+                // body: JSON.stringify({
+                //     username: 'kminchelle',
+                //     password: '0lelplR',
+                // }),
             });
+            // const response = await fetch('http://127.0.0.1:8000/login/', {
+            //     method: 'POST',
+            //     headers: { 'Content-Type': 'application/json' },
+            //     body: JSON.stringify({
+            //         username: payload.username,
+            //         password: payload.password,
+            //     }),
+            // });
 
             if (response.ok) {
                 toast.success('logged in!')
@@ -78,8 +78,8 @@ const loginSlice = createSlice({
                 state.status = "loading";
             })
             .addCase(fetchLogin.fulfilled, (state, action) => {
-                state.user_id = action.payload.user_id
-                localStorage.setItem('token', action.payload.access_token)
+                state.user_id = action.payload.id
+                localStorage.setItem('token', action.payload.token)
                 state.status = "succeeded";
             })
             .addCase(fetchLogin.rejected, (state, action) => {

@@ -10,10 +10,8 @@ const initialState = {
 export const fetchCart = createAsyncThunk(
     'data/cart', async (userId) => {
         try {
-            const response = await axios.get(`http://127.0.0.1:8000/getCartDetails/?userId=${userId}`, {
-                headers: { 'Content-Type': 'application/json' },
-            });
-            return response.data;
+            const response = await axios.get(`https://dummyjson.com/carts/user/${userId}`);
+            return response;
         } catch (e) {
             console.error(e);
         }

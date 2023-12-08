@@ -3,38 +3,52 @@ import { Col, Row, ListGroup, Container, Card, Button, Image } from 'react-boots
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCart } from '../store/cart';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 const Cart = () => {
     const cart = useSelector((state) => state.cart)
     const [cartLength, setCartlength] = useState(0)
     const [cartData, setCartData] = useState()
     const dispatch = useDispatch()
-    const user = useSelector(state => state.login.user_id)
-    useEffect(() => {
-        if (cart?.data?.data) {
-            setCartData(cart)
-            setCartlength(cart.data.data.length)
-        }
-    }, [cart])
-    function clearCart() {
-        const data = fetch(`http://127.0.0.1:8000/clearCart/`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                user_id: user
-            }),
-        }).then(() => {
-            toast.success('cart cleared')
-            dispatch(fetchCart(user))
-        })
-    }
+    const navigate = useNavigate()
 
-    const items = cart.data.data && cartData?.data.data.map((item) => {
+    const user = useSelector(state => state.login.user_id)
+
+    useEffect(() => {
+        // if (cart?.data?.data) {
+        //     setCartData(cart.data.data.carts)
+        //     setCartlength(cart.data.data.length)
+        // }
+        console.log(cart, "cart data")
+    }, [cart])
+
+    useEffect(() => { 
+        if(!user){
+            navigate('/login')
+        }
+        dispatch(fetchCart(user))
+     }, [])
+
+
+    // function clearCart() {
+    //     const data = fetch(`http://127.0.0.1:8000/clearCart/`, {
+    //         method: 'POST',
+    //         headers: { 'Content-Type': 'application/json' },
+    //         body: JSON.stringify({
+    //             user_id: user
+    //         }),
+    //     }).then(() => {
+    //         toast.success('cart cleared')
+    //         dispatch(fetchCart(user))
+    //     })
+    // }
+
+    const items = cart && cart?.data?.data?.carts[0].products.map((item) => {
         return (
             <ListGroup.Item key={item?.id} style={{ marginBottom: '20px' }}>
                 <Row>
                     <Col>
                         <div>
-                            <Image src={item.product_in_cart.thumbnail} style={{ width: '40%', height: '40%' }} />
+                            <Image src={item.thumbnail} style={{ width: '40%', height: '40%' }} />
                         </div>
                     </Col>
                     <Col style={{ marginRight: '20px' }}>
@@ -48,7 +62,7 @@ const Cart = () => {
                             }}
                         >
                             <p>
-                                Price - $<span>{item.product_in_cart.price}</span>
+                                Price - $<span>{item.price}</span>
                             </p>
                             <div
                                 style={{
@@ -99,7 +113,7 @@ const Cart = () => {
                         <Card style={{ width: '18rem' }}>
                             <Card.Body>
                                 <Card.Title>
-                                    Total Amount - <span>${cartData?.data?.carts && cartData.data.carts[0].total}</span>
+                                    Total Amount - <span>${cart?.data?.data?.carts[0].total}</span>
                                 </Card.Title>
 
                                 <Button
@@ -110,14 +124,14 @@ const Cart = () => {
                                 >
                                     Proceed To Checkout
                                 </Button>
-                                <Button
+                                {/* <Button
                                     variant="primary"
                                     style={{ marginTop: '20px' }}
                                     onClick={() => clearCart()}
                                     disabled={cartLength == 0}
                                 >
                                     Clear Cart
-                                </Button>
+                                </Button> */}
                             </Card.Body>
                         </Card>
                     </Col>
