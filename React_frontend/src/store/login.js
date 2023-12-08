@@ -62,8 +62,9 @@ const loginSlice = createSlice({
             const token = localStorage.getItem('token')
             if (token) {
                 const decoded = jwtDecode(token)
-                if (decoded?.user_id) {
-                    state.user_id = decoded.user_id
+                console.log(decoded,"test")
+                if (decoded?.id) {
+                    state.user_id = decoded.id
                 } else {
                     return
                 }

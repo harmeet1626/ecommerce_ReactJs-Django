@@ -42,21 +42,25 @@ function ProductDetails() {
         }
         if (!user) {
             navigate('/login')
+            return
         }
-        await fetch('https://dummyjson.com/carts/add', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                userId: user,
-                products: [
-                    {
-                        id: params.id,
-                        quantity: qty,
-                    }
-                ]
+        else{
+
+            await fetch('https://dummyjson.com/carts/add', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    userId: user,
+                    products: [
+                        {
+                            id: params.id,
+                            quantity: qty,
+                        }
+                    ]
+                })
             })
-        })
-        toast.success('product added to cart')
+            toast.success('product added to cart')
+        }
         // const data = await fetch(`http://127.0.0.1:8000/addToCart/`, {
         //     method: 'POST',
         //     headers: { 'Content-Type': 'application/json' },
