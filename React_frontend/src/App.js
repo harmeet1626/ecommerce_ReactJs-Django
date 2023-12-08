@@ -16,7 +16,6 @@ function App() {
     <div ><ToastContainer />
       <header className="App-header">
         {location.pathname != '/login' ?
-
           <NavbarComponent /> : ""
         }
       </header>

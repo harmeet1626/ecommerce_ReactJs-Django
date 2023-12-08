@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import '../App.css';
 import '../style/productDetails.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useParams } from 'react-router-dom';
+import { redirect, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from "react-toastify";
 import { fetchCart } from '../store/cart';
@@ -10,6 +10,7 @@ import { fetchCart } from '../store/cart';
 function ProductDetails() {
     const dispatch = useDispatch()
     const params = useParams()
+    const navigate = useNavigate()
     const style = {
         display: 'flex',
     }
@@ -37,6 +38,9 @@ function ProductDetails() {
         if (qty == 0) {
             toast.error('please select quantity')
             return
+        }
+        if(!user){
+            navigate('/login')
         }
         // await fetch('https://dummyjson.com/carts/add', {
         //     method: 'POST',
