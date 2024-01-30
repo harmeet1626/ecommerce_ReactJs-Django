@@ -11,6 +11,7 @@ function ProductDetails() {
     const dispatch = useDispatch()
     const params = useParams()
     const navigate = useNavigate()
+    const apiUrl = process.env.REACT_APP_API_KEY
     const style = {
         display: 'flex',
     }
@@ -23,7 +24,7 @@ function ProductDetails() {
     const [image, setImage] = useState()
     const user = useSelector((state) => state.login.user_id)
     const [qty, setQTY] = useState(1)
-    const [API_URL, setAPI_URL] = useState('http://127.0.0.1:8000/allProducts/')
+    const [API_URL, setAPI_URL] = useState(`${apiUrl}/allProducts/`)
     async function getproducts() {
         setLoading(true)
         const data = await fetch(`${API_URL}?product_id=${params.id}`)
@@ -39,7 +40,7 @@ function ProductDetails() {
             toast.error('please select quantity')
             return
         }
-        if(!user){
+        if (!user) {
             navigate('/login')
         }
         // await fetch('https://dummyjson.com/carts/add', {
@@ -55,7 +56,7 @@ function ProductDetails() {
         //         ]
         //     })
         // })
-        const data = await fetch(`http://127.0.0.1:8000/addToCart/`, {
+        const data = await fetch(`${apiUrl}/addToCart/`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
