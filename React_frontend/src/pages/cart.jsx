@@ -8,6 +8,7 @@ const Cart = () => {
     const [cartLength, setCartlength] = useState(0)
     const [cartData, setCartData] = useState()
     const dispatch = useDispatch()
+    const apiUrl = process.env.REACT_APP_API_KEY
     const user = useSelector(state => state.login.user_id)
     useEffect(() => {
         if (cart?.data?.data) {
@@ -16,7 +17,7 @@ const Cart = () => {
         }
     }, [cart])
     function clearCart() {
-        const data = fetch(`http://127.0.0.1:8000/clearCart/`, {
+        const data = fetch(`${apiUrl}/clearCart/`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({

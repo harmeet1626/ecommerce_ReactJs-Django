@@ -11,8 +11,9 @@ const initialState = {
 // Define the async thunk to fetch data
 export const fetchData = createAsyncThunk('data/fetchData', async () => {
     try {
+        const apiUrl = process.env.REACT_APP_API_KEY
         // const response = await axios.get('https://dummyjson.com/products/categories');
-        const response = await axios.get('http://127.0.0.1:8000/categories/')
+        const response = await axios.get(`${apiUrl}/categories/`)
         return response.data;
     } catch (error) {
         throw error;

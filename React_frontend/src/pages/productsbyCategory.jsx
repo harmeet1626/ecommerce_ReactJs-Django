@@ -8,6 +8,7 @@ const Productsbycategory = () => {
     const params = useParams()
     const location = useLocation()
     const [loading, setLoading] = useState(true)
+    const apiUrl = process.env.REACT_APP_API_KEY
     const [searchInput, setSearchInput] = useState('')
     useEffect(() => {
         getProducts()
@@ -31,7 +32,7 @@ const Productsbycategory = () => {
     // }
 
     // }
-    const [api, setApi] = useState('http://127.0.0.1:8000/allProducts/')
+    const [api, setApi] = useState(`${apiUrl}/allProducts/`)
     const getProducts = async () => {
         if (searchInput != '') {
             const data = await (await fetch(`${api}?search=${searchInput}`)).json()

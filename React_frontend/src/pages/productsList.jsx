@@ -3,7 +3,7 @@ import { FormControl, Button } from 'react-bootstrap';
 import '../App.css'
 import { useNavigate } from "react-router-dom";
 const ProductList = () => {
-    const apiUrl = process.env.baseURL;
+    const apiUrl = process.env.REACT_APP_API_KEY
     const navigate = useNavigate()
     const [productList, setProductList] = useState('')
     const [loading, setLoading] = useState(true)
@@ -11,7 +11,6 @@ const ProductList = () => {
     const [skip, setSkip] = useState(0)
     const [searchInput, setSearchInput] = useState('')
     const skipVal = () => skip
-
     useEffect(() => {
         // getProducts()
     }, [skip])
@@ -51,7 +50,7 @@ const ProductList = () => {
     useEffect(() => {
         getAllProducts()
     }, [])
-    const [api, setApi] = useState('http://127.0.0.1:8000/allProducts/')
+    const [api, setApi] = useState(`${apiUrl}/allProducts/`)
     const getAllProducts = async () => {
         if (searchInput != '') {
             const data = await (await fetch(`${api}?search=${searchInput}`)).json()
