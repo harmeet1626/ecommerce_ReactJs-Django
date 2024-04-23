@@ -58,9 +58,15 @@ const ProductList = () => {
             setLoading(false)
         }
         else {
-            const data = await (await fetch(`${api}`)).json()
-            setProductList(data)
-            setLoading(false)
+            try {
+
+                const data = await (await fetch(`${api}`)).json()
+                setProductList(data)
+                setLoading(false)
+            }
+            catch (e) {
+                console.log(e)
+            }
         }
     }
     const next = () => {
